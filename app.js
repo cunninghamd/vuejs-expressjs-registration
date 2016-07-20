@@ -6,9 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var hbs = require("express-handlebars");
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var fs = require("fs");
 
 var app = express();
 
@@ -16,7 +14,7 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.engine(".hbs", hbs({
     layoutsDir: "views/layouts/",
-    partialsDir: ["views/partials/"],
+    partialsDir: ["views/partials", "views/components"],
     defaultLayout: "layout",
     extname: ".hbs",
     helpers: {
@@ -27,7 +25,6 @@ app.engine(".hbs", hbs({
 }));
 app.set("view engine", ".hbs");
 
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -36,8 +33,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+// dynamic route definitions
+fs.readdirSync("./routes").forEach(function(file) {
+    if (file.substr(-3) == ".js") {
+        app.use("/" + ("index" == file.substr(0, 5) ? "" : file.replace(".js", "")), require("./routes/" + file));
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

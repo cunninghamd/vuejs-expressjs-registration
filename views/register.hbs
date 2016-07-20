@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4" id="register-component">
+        <h2>Register Now</h2>
+        
+        <div id="flash-component">
+            <div v-show="populated">
+                <div class="alert alert-success" v-if="success" v-text="success"></div>
+                <div class="alert alert-warning" v-if="warning" v-text="warning"></div>
+                <div class="alert alert-danger" v-if="danger" v-text="danger"></div>
+            </div>
+        </div>
+        
+        <validator name="validation">
+            <form novalidate @submit.prevent>
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.firstname.required && $validation.firstname.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First Name" required v-model="firstName" v-validate:firstname="['required']" autofocus />
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.lastname.required && $validation.lastname.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last Name" required v-model="lastname" v-validate:lastname="['required']" />
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.email.required && $validation.email.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required v-model="email" v-validate:email="['required', 'email']" />
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.mobile.required && $validation.mobile.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required v-model="mobile" v-validate:mobile="['required', 'phone']" />
+                
+                <br/>
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.username.required && $validation.username.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required v-model="username" v-validate:username="['required', 'username']" />
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.password.required && $validation.password.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required v-model="password" v-validate:password="['required']" />
+                <!-- <span class="text-danger" style="float: right" v-if="$validation.confirmpassword.required && $validation.confirmpassword.touched"><i class="fa fa-exclamation"></i></span> -->
+                <input type="password" id="confirmpassword" name="confirmpassword" class="form-control" placeholder="Confirm Password" required v-model="confirmPassword" v-validate:confirmPassword="['required', 'match: password']" />
+                <br/>
+                
+                <button class="btn btn-lg btn-primary btn-block" @click="register">Register</button> <button class="btn btn-lg btn-secondary btn-block" @click="reset">Cancel</button>
+            </form>
+        </validator>
+    </div>
+</div>

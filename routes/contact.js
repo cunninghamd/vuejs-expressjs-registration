@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    res.render("contact", {
+        title: "Vue.js/Express.js Registration Example Application",
+        contact: true,
+    });
 });
 
 module.exports = router;
